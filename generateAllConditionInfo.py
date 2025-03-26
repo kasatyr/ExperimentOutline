@@ -1,10 +1,14 @@
 ### Using 'Builder Loops' to load conditions from csv or excel files?
     ### Can we read word list this way? or from a .txt file?
+
 ### How many participants? How many words total? 
+
 ### Repeated words between blocks?
     ### What is the purpose of blocks? from what I can tell, 1 and 3 are the same
-### Blue/Orange, are these static? 
 
+### Blue/Orange, are these static? 
+    ### blue always == remember?
+    ### tracking for this not yet implemented
 
 import pandas as pd
 import random
@@ -99,7 +103,7 @@ class Trial():
 
 #allWords = random.sample(wordList, 315)
 allWords = []
-for i in range(315):
+for i in range(33, 349):
     allWords.append(chr(i))
 
 class Block():
@@ -143,4 +147,5 @@ class Block():
 new = Block(1)
 
 print(new.trials[11])
+print(new.trials[4].trialWords)
 print(new.trials[14].slots[5])
