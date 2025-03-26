@@ -1,6 +1,9 @@
 ### Using 'Builder Loops' to load conditions from csv or excel files?
+    ### Can we read word list this way? or from a .txt file?
 ### How many participants? How many words total? 
 ### Repeated words between blocks?
+    ### What is the purpose of blocks? from what I can tell, 1 and 3 are the same
+### Blue/Orange, are these static? 
 
 
 import pandas as pd
@@ -19,25 +22,30 @@ possibleConditions = ['SS3', 'SS6', 'TBRF']
 possibleImages = ['mountains', 'forests', 'beaches']
 
 class Slot():
-    # A Trial has seven of these (6 plus repeated one). A block has 126.
+    '''
+    A Trial has seven of these (6 plus repeated one). A block has 126.
+    '''
 
     def __init__(self, coords, word):
         self.coordinates = coords
         self.word = word
 
     def __repr__(self):
+        ## This determines what show up when an object of this class is printed.
         return f'Slot at {self.coordinates} with word: {self.word}'
 
 class Trial():
-    # A Block has 18 of these.
+    '''
+    'A Block has 18 of these.'
+    '''
 
     def calculateSlots(self):
-
+        ## First adds slot for each possible location...
+        ## then a slot for the target (this is self.slots[6])
         for slotN, coords in locationCoordinates.items():
             self.slots[slotN] = Slot(coords, self.trialWords[slotN])
             if self.condition == 'SS3' and slotN % 2 == 1:
                 self.slots[slotN].word = 'XXX'
-            #print(self.slots[slotN])
         targetCoords = locationCoordinates[self.targetLocation]
 
         if self.match:
@@ -45,7 +53,6 @@ class Trial():
         else:
             targetWord = self.trialWords[6]
         self.slots[6] = Slot(targetCoords, targetWord)
-        #print(self.slots[6])
 
     def __init__(self, cond, image, match, location, nextSeven):
 
@@ -81,7 +88,10 @@ class Trial():
             5: None,
             6: None # this is the repeated slot
         }
-        self.calculateSlots()
+
+        ## call the Trial class method to fill in slots. 
+        ## Slots at this.slots[n] where n is 0-6
+        self.calculateSlots() 
 
     def __repr__(self):
         return f'{self.condition} Trial with {self.image} background, target matching is {self.match}, target location is {self.targetLocation}'
@@ -93,13 +103,14 @@ for i in range(315):
     allWords.append(chr(i))
 
 class Block():
-    layoutA = [0, 2, 4, 1, 3, 5, 1, 3, 5, 0, 2, 4, 0, 2, 4, 1, 3, 5]
-    layoutB = [1, 3, 5, 0, 2, 4, 0, 2, 4, 1, 3, 5, 1, 3, 5, 0, 2, 4]
+    layoutA = [0, 2, 4, 1, 3, 5, 1, 3, 5, 0, 2, 4, 0, 2, 4, 1, 3, 5] # for even number Blocks
+    layoutB = [1, 3, 5, 0, 2, 4, 0, 2, 4, 1, 3, 5, 1, 3, 5, 0, 2, 4] # for odd number Blocks
 
     def __init__(self, i):
+        self.blockN = i
         self.allWords = random.sample(allWords, 127)
 
-        self.ss3_Words =  self.allWords[:42]
+        self.ss3_Words =  self.allWords[:42] # first 42 words (not all used)
         self.ss6_Words =  self.allWords[42:85]  # next 42 words
         self.tbrf_Words =  self.allWords[85:]  # last 42 words
 
@@ -118,7 +129,7 @@ class Block():
             if cond == 'SS3': words = self.ss3_Words[startInd:endInd]
             if cond == 'SS6': words = self.ss6_Words[startInd:endInd]
             if cond == 'TBRF': words = self.tbrf_Words[startInd:endInd]
-            #print(words)
+
             if i % 2 == 1: 
                 loc = self.layoutA[trialN]
             else:
@@ -127,7 +138,7 @@ class Block():
             self.trials[trialN] = Trial(cond, image, matching, loc, words)
     
     def __repr__(self):
-        return f''
+        return f'Block {self.blockN} with {len(self.trials)} Trials'
     
 new = Block(1)
 
