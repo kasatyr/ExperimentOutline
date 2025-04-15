@@ -32,13 +32,14 @@ class Slot():
     A Trial has seven of these (6 plus repeated one). A block has 126.
     '''
 
-    def __init__(self, coords, word):
+    def __init__(self, coords, word, color):
         self.coordinates = coords
         self.word = word
+        self.color = color
 
     def __repr__(self):
         ## This determines what show up when an object of this class is printed.
-        return f'Slot at {self.coordinates} with word: {self.word}'
+        return f'{self.color} Slot at {self.coordinates} with word: {self.word}'
 
 class Trial():
     '''
@@ -48,17 +49,37 @@ class Trial():
     def calculateSlots(self):
         ## First adds slot for each possible location...
         ## then a slot for the target (this is self.slots[6])
+
+        colorOrder = ['blue', 'blue', 'blue', 'orange', 'orange', 'orange']
+        random.shuffle(colorOrder)
+        
+        # continue shuffling until target slot is blue
+        while colorOrder[self.targetLocation] == 'orange':
+            random.shuffle(colorOrder)
+
         for slotN, coords in locationCoordinates.items():
-            self.slots[slotN] = Slot(coords, self.trialWords[slotN])
-            if self.condition == 'SS3' and slotN % 2 == 1:
+
+            if self.condition == 'SS6': # all SS6 slots are blue
+                slotColor = 'blue'
+
+            else:
+                slotColor = colorOrder[slotN] # if not SS6, 3 blue, 3 orange
+
+            self.slots[slotN] = Slot(coords, self.trialWords[slotN], slotColor)
+
+            if self.condition == 'SS3' and slotColor == 'orange': # override name to XXX if SS3 and orange
                 self.slots[slotN].word = 'XXX'
+
         targetCoords = locationCoordinates[self.targetLocation]
 
         if self.match:
             targetWord = self.slots[self.targetLocation].word
+            targetColor = self.slots[self.targetLocation].color
         else:
             targetWord = self.trialWords[6]
-        self.slots[6] = Slot(targetCoords, targetWord)
+            targetColor = 'blue'
+
+        self.slots[6] = Slot(targetCoords, targetWord, targetColor)
 
     def __init__(self, cond, image, match, location, nextSeven):
 
