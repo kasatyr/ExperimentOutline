@@ -161,7 +161,11 @@ class Block():
                 loc = self.layoutA[trialN]
             else:
                 loc = self.layoutB[trialN]
-            #print(f'about to make Trial number {trialN}')
+            
+            if cond != 'SS3': 
+                # this will skip SS6 and TBRF trials !!!
+                # replace 'continue' with 'pass' to create all trials
+                continue 
             self.trials[trialN] = Trial(cond, image, matching, loc, words)
     
     def __repr__(self):
@@ -169,12 +173,12 @@ class Block():
     
 test = Block(1)
 
-print(test.trials[13])
-print(test.trials[13].trialWords)
-print(test.trials[13].slots[0])
-print(test.trials[13].slots[1])
-print(test.trials[13].slots[2])
-print(test.trials[13].slots[3])
-print(test.trials[13].slots[4])
-print(test.trials[13].slots[5])
-print(test.trials[13].slots[6])
+# print(test.trials[13])
+# print(test.trials[13].trialWords)
+# print(test.trials[13].slots[0])
+# print(test.trials[13].slots[1])
+# print(test.trials[13].slots[2])
+# print(test.trials[13].slots[3])
+# print(test.trials[13].slots[4])
+# print(test.trials[13].slots[5])
+# print(test.trials[13].slots[6])
