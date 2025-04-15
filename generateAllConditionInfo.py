@@ -52,7 +52,7 @@ class Trial():
 
         colorOrder = ['blue', 'blue', 'blue', 'orange', 'orange', 'orange']
         random.shuffle(colorOrder)
-        
+
         # continue shuffling until target slot is blue
         while colorOrder[self.targetLocation] == 'orange':
             random.shuffle(colorOrder)
@@ -169,6 +169,12 @@ class Block():
     
 test = Block(1)
 
-print(test.trials[11])
-print(test.trials[4].trialWords)
-print(test.trials[14].slots[5])
+print(test.trials[13])
+print(test.trials[13].trialWords)
+print(test.trials[13].slots[0])
+print(test.trials[13].slots[1])
+print(test.trials[13].slots[2])
+print(test.trials[13].slots[3])
+print(test.trials[13].slots[4])
+print(test.trials[13].slots[5])
+print(test.trials[13].slots[6])
