@@ -1,7 +1,7 @@
 ### Using 'Builder Loops' to load conditions from csv or excel files?
     ### Can we read word list this way? or from a .txt file?
 
-### How many participants? How many words total? 
+### How many participants? How many words total? 60 total,
 
 ### Repeated words between blocks?
     ### What is the purpose of blocks? from what I can tell, 1 and 3 are the same
@@ -9,6 +9,8 @@
 ### Blue/Orange, are these static? 
     ### blue always == remember?
     ### tracking for this not yet implemented
+# SS6 is all blue
+# SS3 XXX is always orange
 
 import pandas as pd
 import random
@@ -144,8 +146,8 @@ class Block():
     def __repr__(self):
         return f'Block {self.blockN} with {len(self.trials)} Trials'
     
-new = Block(1)
+test = Block(1)
 
-print(new.trials[11])
-print(new.trials[4].trialWords)
-print(new.trials[14].slots[5])
+print(test.trials[11])
+print(test.trials[4].trialWords)
+print(test.trials[14].slots[5])
